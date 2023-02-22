@@ -1,21 +1,17 @@
-//hello :)
-//theme array
-
 #include <iostream>
 using namespace std;
 
-int main()
+int maim()
 {
-    int w{};
+    double aa[12]{};
 
-    int aa[5] = {1, 3, -5, -8, 4};
-
-    for(int i = 0; i < 5; i = i + 1)
+    for (int i = 0; i < 12; i = i + 1)
     {
-        if (aa[i] > 0)
-        {
-            w = w + 1;
-        }
+        cin >> aa[i];
     }
-    cout << w;
+
+    double result = ((aa[0] + aa[1] + aa[2] + aa[3] + aa[4] + aa[5] + aa[6] + aa[7] + aa[8] + aa[9] + aa[10] + aa[11])/12.0);
+    cout << result << endl;
+
+    return 0;
 }

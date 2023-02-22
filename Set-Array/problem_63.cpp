@@ -1,4 +1,4 @@
-/* Set Array (A)*/
+//problem #63
 
 #include <iostream>
 #include <vector>
