@@ -6,11 +6,14 @@ using namespace std;
 
 int main()
 {
-    int w{};
+    int w{}; int n{};
+    cin >> n; int aa[n];
 
-    int aa[5] = {1, 3, -5, -8, 4};
-
-    for(int i = 0; i < 5; i = i + 1)
+    for(int i = 0; i < n; i = i + 1)
+    {
+        cin >> aa[i];
+    }
+    for(int i = 0; i < n; i = i + 1)
     {
         if (aa[i] > 0)
         {
