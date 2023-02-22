@@ -3,15 +3,14 @@ using namespace std;
 
 struct Empl
 {
+    string name;
     int age;
     int salary;
 };
 
 int main()
 {
-    Empl alexander {30, 20000};
-    Empl sasha {14, 45000};
+    Empl it {"Alex" ,30, 20000};
 
-    cout << alexander.age << endl;
-    cout << sasha.age << endl;
+    cout << it.name << endl;
 }
