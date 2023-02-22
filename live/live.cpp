@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int maim()
+int main()
 {
     double aa[12]{};
 
