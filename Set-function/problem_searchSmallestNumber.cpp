@@ -1,9 +1,13 @@
-#include <iostream>
+//problem - Search for the smallest number
 
-int min();
+#include <iostream>
+using namespace std;
+
+int min(int a, int b, int c, int d);
 
 int main()
 {
+    cout << min(10, 5, 2, 22) << endl;
 }
 
 int min(int a, int b, int c, int d)
