@@ -5,26 +5,19 @@ using namespace std;
 
 int main()
 {
-    string s = "example";
-    size_t i, k = 0, j = 0;
+    string s = "example"; // 7 chars
+    int i{}, k{}, j{};
 
-    i = s.length() / 2;
-    while (k <= i)
+    i = s.length();       // 7
+
+    while (k <= i)        // 1 <= 7 ...etc
     {
-        s.insert(j, "(");
-        s.insert(s.length() - j, ")");
-        j += 2;
+        s.insert(j, "*");
+        j = j + 2; //cout << j << endl;
         k++;
     }
-    if (s.find("()") != string::npos)
-        s.erase(s.find("()"), 2);
     cout << s;
+
+
     return 0;
-}
-
-int insertChar(string text)
-{
-    int i = sizeof(text);
-
-    
 }
