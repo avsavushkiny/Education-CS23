@@ -13,7 +13,7 @@ int main()
     while (k <= i)        // 1 <= 7 ...etc
     {
         s.insert(j, "*");
-        j = j + 2; //cout << j << endl;
+        j = j + 2;
         k++;
     }
     cout << s;

@@ -3,15 +3,13 @@ using namespace std;
 
 int main()
 {
-    double aa[12]{};
-
-    for (int i = 0; i < 12; i = i + 1)
+    struct Empl
     {
-        cin >> aa[i];
-    }
+        int number;
+        int all;
+    };
 
-    double result = ((aa[0] + aa[1] + aa[2] + aa[3] + aa[4] + aa[5] + aa[6] + aa[7] + aa[8] + aa[9] + aa[10] + aa[11])/12.0);
-    cout << result << endl;
+    Empl book = {158, 350};
 
-    return 0;
+    cout << sizeof(book);
 }
