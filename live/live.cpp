@@ -1,15 +1,11 @@
 #include <iostream>
+#include <LiquidCrystal.h>
+LiquidCrystal lcd (12, 11, 7, 6, 5, 4)
 using namespace std;
 
 int main()
 {
-    struct Empl
-    {
-        int number;
-        int all;
-    };
-
-    Empl book = {158, 350};
-
-    cout << sizeof(book);
+    return 0
 }
+
+
