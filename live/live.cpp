@@ -1,190 +1,73 @@
-#include <ncurses.h>
-#include <unistd.h>
-#include <cstdlib>
-#include <vector>
+/*
+    game Awari lite-version
+    https://archive.org/details/Game_of_Awari_The_1984_Understanding
 
+    Awari - это стратегическая игра для двух игроков. Состоит из доски, двух рядов чашек, 
+    и чашек-домиков расположенных в каждом ряду по правой стороне от игрока. 
+
+    Цель игры - захватить больше семян, чем ваш оппонент. Игроки поочередно 
+    перемещают семена по доске, следуя определенным правилам:
+
+    1. Выберите чашку (согласно стратегии) на своем ряду, и возьмите все семечки из чашки.
+    2. Двигаясь против часовой стрелки, бросьте по одной семечке в каждую чашку,
+       включая в чашку-домик вашего оппонента. [a]
+    3. Если последняя семечка, которую вы бросаете, попадает в ваш домик,
+       вы получаете ещё один ход.
+    4. Если последняя семечка, которую вы бросаете, попадает в пустую чашку
+       на вашей стороне доски, а у вашего оппонента есть семечки в чашке напротив,
+       вы захватываете все семечки в обоих чашках и помещаете их в свой домик. [b]
+    5. Игра заканчивается, когда один из игроков больше не может сделать ход.
+       Игрок с наибольшим количеством семечек в своем домике в конце игры побеждает.
+
+    Awari - это игра, требующая стратегии и планирования, а также способности 
+    адаптироваться к ходам оппонента. Она популярна во многих частях Африки и 
+    играется уже многие века.
+
+    Alexander Savushkin, 03.2023
+
+    [a]
+
+*/
+
+#include <iostream>
 using namespace std;
 
-// Define the size of the game window
-const int WIDTH = 50;
-const int HEIGHT = 20;
+#define MAX_ARRAY 8
+int v[MAX_ARRAY]{0, 3, 3, 3, 0, 3, 3, 3};
+int a{}, b{};
 
-// Define the player's starting position and size
-const int PLAYER_X = WIDTH / 2;
-const int PLAYER_Y = HEIGHT - 2;
-const int PLAYER_WIDTH = 3;
-const int PLAYER_HEIGHT = 1;
-
-// Define the alien's starting position and size
-const int ALIEN_X = WIDTH / 2;
-const int ALIEN_Y = 2;
-const int ALIEN_WIDTH = 3;
-const int ALIEN_HEIGHT = 1;
-
-// Define the bullet's size and speed
-const int BULLET_WIDTH = 1;
-const int BULLET_HEIGHT = 1;
-const int BULLET_SPEED = 3;
-
-// Define the key codes for player movement
-const int KEY_LEFT = 'a';
-const int KEY_RIGHT = 'd';
-const int KEY_FIRE = ' ';
-
-// Define a struct to represent a game object
-struct GameObject
+void vOut()
 {
-    int x, y, width, height;
-};
-
-// Define a struct to represent a bullet
-struct Bullet
-{
-    GameObject object;
-    int dy;
-};
-
-// Define a function to draw a game object
-void drawGameObject(GameObject object, char ch)
-{
-    for (int i = 0; i < object.width; i++)
+    for (int i = 0; i < MAX_ARRAY; i++)
     {
-        mvaddch(object.y, object.x + i, ch);
-        mvaddch(object.y + object.height - 1, object.x + i, ch);
+        cout << v[i] << "|";
     }
-    for (int i = 0; i < object.height; i++)
-    {
-        mvaddch(object.y + i, object.x, ch);
-        mvaddch(object.y + i, object.x + object.width - 1, ch);
-    }
-}
-
-// Define a function to move a game object horizontally
-void moveGameObject(GameObject &object, int dx)
-{
-    object.x += dx;
-    if (object.x < 0)
-    {
-        object.x = 0;
-    }
-    else if (object.x + object.width >= WIDTH)
-    {
-        object.x = WIDTH - object.width;
-    }
-}
-
-// Define a function to update the position of a bullet
-void updateBullet(Bullet &bullet)
-{
-    bullet.object.y += bullet.dy;
-}
-
-// Define a function to check if a bullet is off the screen
-bool isBulletOffScreen(Bullet bullet)
-{
-    return bullet.object.y < 0 || bullet.object.y >= HEIGHT;
-}
-
-// Define a function to check if a bullet has hit a game object
-bool isBulletHitObject(Bullet bullet, GameObject object)
-{
-    int bx = bullet.object.x;
-    int by = bullet.object.y;
-    int bw = bullet.object.width;
-    int bh = bullet.object.height;
-    int ox = object.x;
-    int oy = object.y;
-    int ow = object.width;
-    int oh = object.height;
-    return bx + bw > ox && bx < ox + ow && by + bh > oy && by < oy + oh;
+    cout << endl;
 }
 
 int main()
 {
-    // Initialize ncurses
-    initscr();
-    noecho();
-    cbreak();
-    keypad(stdscr, TRUE);
-    curs_set(0);
-
-    // Initialize game objects
-    GameObject player = {PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT};
-    GameObject alien = {ALIEN_X, ALIEN_Y, ALIEN_WIDTH, ALIEN_HEIGHT};
-    vector<Bullet> bullets;
-
-    // Main game loop
+    vOut();
     while (true)
     {
-        // Clear the screen
-        clear();
+        cout << "enter the number Cup" << endl;
+        cin >> a;
 
-        // Draw the game objects
-        drawGameObject(player, '#');
-        drawGameObject(alien, '@');
-        for (Bullet bullet : bullets)
-        {
-            drawGameObject(bullet.object, '*');
-        }
+        b = v[a];
 
-        // Move the player
-        int ch = getch();
-        switch (ch)
+        for (int c = 1; c <= b; c++)
         {
-        case KEY_LEFT:
-            moveGameObject(player, -1);
-            break;
-        case KEY_RIGHT:
-            moveGameObject(player, 1);
-            break;
-        case KEY_FIRE:
-            bullets.push_back({{player.x + player.width / 2 - BULLET_WIDTH / 2, player.y - 1, BULLET_WIDTH, BULLET_HEIGHT}, -BULLET_SPEED});
-            break;
-        }
-
-        // Move the bullets
-        for (int i = 0; i < bullets.size(); i++)
-        {
-            updateBullet(bullets[i]);
-            if (isBulletOffScreen(bullets[i]))
+            if ((a + 1 + c) > MAX_ARRAY)
             {
-                bullets.erase(bullets.begin() + i);
-                i--;
+                v[a + c - MAX_ARRAY] += 1;
+                v[a] = 0;
             }
-            else if (isBulletHitObject(bullets[i], alien))
+            else
             {
-                alien.x = rand() % (WIDTH - alien.width);
-                alien.y = ALIEN_Y;
-                bullets.erase(bullets.begin() + i--;
+                v[a + c] += 1;
+                v[a] = 0;
             }
         }
-
-        // Move the alien
-        alien.y++;
-        if (alien.y >= HEIGHT)
-        {
-            alien.x = rand() % (WIDTH - alien.width);
-            alien.y = ALIEN_Y;
-        }
-
-        // Check for collision between player and alien
-        if (player.x + player.width > alien.x && player.x < alien.x + alien.width && player.y + player.height > alien.y && player.y < alien.y + alien.height)
-        {
-            mvprintw(HEIGHT / 2, WIDTH / 2 - 6, "GAME OVER!");
-            refresh();
-            usleep(1000000);
-            break;
-        }
-
-        // Refresh the screen
-        refresh();
-
-        // Wait for a short time
-        usleep(50000);
+        vOut();
     }
-
-    // Clean up ncurses
-    endwin();
-
-    return 0;
 }
