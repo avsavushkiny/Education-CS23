@@ -12,8 +12,7 @@ union D
 {
     int intValue;
     float floatValue;
-    string text;
-} d;
+    string text;} d;
 
 int main()
 
